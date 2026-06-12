@@ -4,7 +4,9 @@
   function eventCard(evt) {
     return (
       '<div class="event-card">' +
-        '<img class="event-card-img" src="' + evt.image + '" alt="' + evt.title + '" loading="lazy">' +
+        '<div class="skeleton" style="width:100%;height:200px">' +
+          '<img class="event-card-img" src="' + evt.image + '" alt="' + evt.title + '" loading="lazy" onload="this.parentElement.classList.remove(\'skeleton\')">' +
+        '</div>' +
         '<div class="event-card-body">' +
           '<h3>' + evt.title + '</h3>' +
           '<p>' + evt.description + '</p>' +

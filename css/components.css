@@ -1,6 +1,6 @@
 /* --- IMMERSIVE LIQUID ORB SYSTEM --- */
 .ambient-canvas {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     z-index: -3; overflow: hidden; filter: blur(140px); opacity: 0.65;
     background: var(--bg-dark);
     will-change: transform;
@@ -45,7 +45,7 @@
 
 /* --- SCREEN BLOCKING INTRO --- */
 .intro-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background-color: var(--bg-dark); z-index: 9999;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
@@ -112,7 +112,7 @@
 /* --- MOBILE MENU OVERLAY --- */
 .mobile-menu {
     position: fixed; top: 0; left: 0; z-index: 999;
-    width: 100vw; width: 100dvw; height: 100vh; height: 100dvh;
+    width: 100%; width: 100dvw; height: 100vh; height: 100dvh;
     background: rgba(4, 6, 10, 0.92);
     backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -215,30 +215,85 @@
     gap: 10px;
     margin-bottom: 40px;
     justify-content: center;
+    max-width: 100%;
 }
+#alumni-tabs:empty { display: none; }
 
 .year-tab {
+    position: relative;
+    overflow: hidden;
     padding: 8px 24px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.10);
     border-radius: 50px;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.08) 0%,
+        rgba(255,255,255,0.02) 50%,
+        rgba(255,255,255,0.04) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: rgba(255,255,255,0.55);
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        inset 0 -1px 0 rgba(255,255,255,0.03),
+        0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* Glossy glass reflection */
+.year-tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.12) 0%,
+        rgba(255,255,255,0.04) 40%,
+        transparent 100%
+    );
+    border-radius: 50px 50px 0 0;
+    pointer-events: none;
 }
 
 .year-tab:hover {
-    border-color: var(--accent);
+    border-color: rgba(255,255,255,0.20);
     color: #ffffff;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.12) 0%,
+        rgba(255,255,255,0.04) 50%,
+        rgba(255,255,255,0.06) 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        inset 0 -1px 0 rgba(255,255,255,0.05),
+        0 6px 24px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
+}
+
+.year-tab:active {
+    transform: translateY(0);
 }
 
 .year-tab.active {
     background: var(--accent);
     border-color: var(--accent);
     color: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.20),
+        0 4px 20px rgba(0,0,0,0.3);
 }
 
 /* --- MEMBER CARD IMAGE FALLBACK --- */
@@ -264,7 +319,7 @@
 #executives.team-section { background-color: var(--brand-yellow); }
 #teachers.team-section   { background-color: var(--brand-green); }
 #advisors.team-section   { background-color: var(--brand-blue); }
-#alumni.team-section     { background-color: rgba(234, 50, 42, 1); --accent: rgba(234, 50, 42, 1); }
+#alumni.team-section     { background-color: rgba(234, 50, 42, 1); --accent: rgba(234, 50, 42, 1); scroll-snap-stop: normal; }
 
 /* --- Welcome (blue) — white text, dark cards --- */
 .welcome-section .welcome-title { color: #ffffff; }
@@ -302,7 +357,7 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 #teachers.team-section .member-name { color: #ffffff; }
-#teachers.team-section .member-role { color: rgba(255, 255, 255, 0.6); }
+#teachers.team-section .member-role { color: rgba(255, 255, 255, 0.35); }
 
 /* --- Advisors (blue) — white text, dark cards --- */
 #advisors.team-section .team-title { color: #ffffff; }
@@ -317,7 +372,7 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 #advisors.team-section .member-name { color: #ffffff; }
-#advisors.team-section .member-role { color: rgba(255, 255, 255, 0.6); }
+#advisors.team-section .member-role { color: rgba(255, 255, 255, 0.35); }
 
 /* --- Alumni (purple) — white text, dark cards --- */
 #alumni.team-section .team-title { color: #ffffff; }
@@ -332,7 +387,7 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 #alumni.team-section .member-name { color: #ffffff; }
-#alumni.team-section .member-role { color: rgba(255, 255, 255, 0.6); }
+#alumni.team-section .member-role { color: rgba(255, 255, 255, 0.35); }
 
 .team-container {
     max-width: 1200px;
@@ -384,14 +439,6 @@
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
     box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
 }
-/* gradient overlay: transparent at 50% height → black at bottom */
-.member-card::before {
-    content: '';
-    position: absolute; top: 50%; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
-    z-index: 1;
-    pointer-events: none;
-}
 @media (hover: hover) {
     .member-card:hover {
         transform: translateY(-6px);
@@ -403,7 +450,20 @@
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
 }
+.member-img-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
 .member-img {
+    position: relative;
+    z-index: 1;
     width: 100%; height: 100%;
     object-fit: cover;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -417,36 +477,80 @@
 .member-card-text {
     position: relative;
     z-index: 2;
-    padding: 24px;
+    padding: 40px 24px 24px;
     text-align: left;
 }
 .member-name {
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    font-size: clamp(1.3rem, 1.8vw, 1.5rem);
     font-weight: 700;
     color: #ffffff;
-    margin: 0;
+    margin: 0 0 4px 0;
     letter-spacing: -0.01em;
 }
-.member-name::after {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: rgba(255,255,255,0.3);
-    margin: 8px 0 6px;
-    border-radius: 2px;
-    transition: width 0.3s;
+
+/* --- SKELETON LOADING SHIMMER --- */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
 }
-@media (hover: hover) {
-    .member-card:hover .member-name::after {
-        width: 36px;
-    }
+.skeleton::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.06) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.8s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 .member-role {
-    font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+    font-size: clamp(0.62rem, 0.85vw, 0.72rem);
     font-weight: 500;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.35);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     margin: 0;
+}
+
+/* --- STAGGERED CARD ENTRANCE ANIMATIONS --- */
+.card-stagger .member-img-wrapper {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+.card-stagger .member-card-text {
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 400ms ease-out, transform 400ms ease-out;
+}
+
+/* Card 1: no delay on image, text starts after last image finishes */
+.card-stagger .member-card:nth-child(1) .member-img-wrapper { transition-delay: 0ms; }
+.card-stagger .member-card:nth-child(2) .member-img-wrapper { transition-delay: 200ms; }
+.card-stagger .member-card:nth-child(3) .member-img-wrapper { transition-delay: 400ms; }
+
+/* All 6 text elements appear at the same time after images finish (400+500=900ms) */
+.card-stagger .member-card:nth-child(1) .member-card-text,
+.card-stagger .member-card:nth-child(2) .member-card-text,
+.card-stagger .member-card:nth-child(3) .member-card-text {
+    transition-delay: 900ms;
+}
+
+/* Triggered state */
+.card-stagger-in .member-img-wrapper {
+    opacity: 1;
+    transform: translateY(0);
+}
+.card-stagger-in .member-card-text {
+    opacity: 1;
+    transform: translateX(0);
 }

@@ -20,8 +20,8 @@
 
     return (
       '<div class="member-card">' +
-        '<div class="member-img-wrapper">' +
-          '<img class="member-img" src="' + src + '" alt="' + member.name + '" loading="lazy" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27400%27%3E%3Crect fill=%27%231a1f2e%27 width=%27400%27 height=%27400%27/%3E%3Ctext fill=%27%234a5568%27 font-size=%27120%27 x=%27200%27 y=%27220%27 text-anchor=%27middle%27 font-family=%27Inter,sans-serif%27%3E' + escapedInitials + '%3C/text%3E%3C/svg%3E\'">' +
+        '<div class="member-img-wrapper skeleton">' +
+          '<img class="member-img" src="' + src + '" alt="' + member.name + '" loading="lazy" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27400%27%3E%3Crect fill=%27%231a1f2e%27 width=%27400%27 height=%27400%27/%3E%3Ctext fill=%27%234a5568%27 font-size=%27120%27 x=%27200%27 y=%27220%27 text-anchor=%27middle%27 font-family=%27Inter,sans-serif%27%3E' + escapedInitials + '%3C/text%3E%3C/svg%3E\';this.parentElement.classList.remove(\'skeleton\')" onload="this.parentElement.classList.remove(\'skeleton\')">' +
         '</div>' +
         '<div class="member-card-text">' +
           '<h3 class="member-name">' + member.name + '</h3>' +
@@ -44,9 +44,36 @@
       .then(function (data) {
         var items = limit < Infinity ? data.slice(0, limit) : data;
         container.innerHTML = items.map(memberCard).join("");
+        initStagger(container);
       })
       .catch(function (err) {
         console.error("members.js: failed to load " + jsonUrl, err);
       });
   };
 })();
+
+window.initStagger = function (container) {
+  var section = container.closest('.snap-section');
+  if (!section) return;
+  if (section.classList.contains('card-stagger')) return;
+
+  section.classList.add('card-stagger');
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('card-stagger-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(section);
+
+  // If already visible, trigger immediately
+  var rect = section.getBoundingClientRect();
+  if (rect.top < window.innerHeight && rect.bottom > 0) {
+    section.classList.add('card-stagger-in');
+    observer.unobserve(section);
+  }
+};

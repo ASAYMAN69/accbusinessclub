@@ -6,6 +6,7 @@
     var tabsEl    = document.getElementById('alumni-tabs');
     if (!container) return;
 
+    var isHomepage = container.hasAttribute('data-homepage');
     var alumniData, sortedYears;
 
     try {
@@ -24,6 +25,18 @@
     });
 
     sortedYears = Object.keys(grouped).sort(function (a, b) { return Number(b) - Number(a); });
+
+    if (isHomepage) {
+      // Homepage: show only 3, no year tabs
+      var flat = [];
+      sortedYears.forEach(function (year) {
+        var items = grouped[year].slice().sort(function (a, b) { return a.sort_order - b.sort_order; });
+        flat = flat.concat(items);
+      });
+      renderGrid(flat.slice(0, 3));
+      if (window.initStagger) initStagger(container);
+      return;
+    }
 
     if (tabsEl) {
       tabsEl.innerHTML = '';
