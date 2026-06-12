@@ -30,7 +30,7 @@
     <div class="intro-overlay" id="intro-screen">
         <div class="intro-container">
             <div class="phrase-one" id="jump-phrase">possibilities are infinite</div>
-            <div class="phrase-two">those who <strong>dare to win</strong></div>
+            <div class="phrase-two">those who <strong>dare win</strong></div>
         </div>
     </div>
 
@@ -163,40 +163,7 @@
                     <h2 class="team-title">Executive Members</h2>
                 </div>
                 
-                <div class="member-grid">
-                <!-- 1. Siyam Sami Chowdhury -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/siyam-sami-chowdhury.webp" alt="Siyam Sami Chowdhury" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Siyam Sami Chowdhury</h3>
-                        <p class="member-role">President</p>
-                    </div>
-                </div>
-                
-                <!-- 2. Mohammed Shahriar Hossain -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/mohammed-shahriar-hossain.webp" alt="Mohammed Shahriar Hossain" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Mohammed Shahriar Hossain</h3>
-                        <p class="member-role">Vice President</p>
-                    </div>
-                </div>
-                
-                <!-- 3. Tahsin Nawal Rahman -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/tahsin-nawal-rahman.webp" alt="Tahsin Nawal Rahman" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Tahsin Nawal Rahman</h3>
-                        <p class="member-role">General Secretary</p>
-                    </div>
-                </div>
-            </div>
+                <div class="member-grid" id="home-exec-grid" data-limit="3"></div>
             <div class="section-cta">
                 <a href="executives/" class="cta-link">View All Executives →</a>
             </div>
@@ -212,40 +179,7 @@
                     <h2 class="team-title">Teachers Panel</h2>
                 </div>
                 
-                <div class="member-grid">
-                <!-- 1. Zerin Ahmed -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/zerin-ahmed.webp" alt="Zerin Ahmed" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Zerin Ahmed</h3>
-                        <p class="member-role">Professor</p>
-                    </div>
-                </div>
-                
-                <!-- 2. Tanjila Alam Sony -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/tanjila-alam-sony.webp" alt="Tanjila Alam Sony" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Tanjila Alam Sony</h3>
-                        <p class="member-role">Faculty</p>
-                    </div>
-                </div>
-                
-                <!-- 3. Tanvir Anwar -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/tanvir-anwar.webp" alt="Tanvir Anwar" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Tanvir Anwar</h3>
-                        <p class="member-role">Assistant Professor</p>
-                    </div>
-                </div>
-            </div>
+                <div class="member-grid" id="home-teachers-grid" data-limit="3"></div>
             <div class="section-cta">
                 <a href="teachers/" class="cta-link">View All Teachers →</a>
             </div>
@@ -261,40 +195,7 @@
                     <h2 class="team-title">Advisors Panel</h2>
                 </div>
                 
-                <div class="member-grid">
-                <!-- 1. Samiha Saiyara Saba -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/samiha-saiyara-saba.webp" alt="Samiha Saiyara Saba" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Samiha Saiyara Saba</h3>
-                        <p class="member-role">Chief Advisor</p>
-                    </div>
-                </div>
-                
-                <!-- 2. Md Seefath E Karim Saad -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/md-seefath-e-karim-saad.webp" alt="Md Seefath E Karim Saad" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Md Seefath E Karim Saad</h3>
-                        <p class="member-role">Advisor</p>
-                    </div>
-                </div>
-                
-                <!-- 3. Sherana Shaif Liana -->
-                <div class="member-card">
-                    <div class="member-img-wrapper">
-                        <img class="member-img" src="assets/sherana-shaif-liana.webp" alt="Sherana Shaif Liana" loading="lazy">
-                    </div>
-                    <div class="member-card-text">
-                        <h3 class="member-name">Sherana Shaif Liana</h3>
-                        <p class="member-role">Advisor</p>
-                    </div>
-                </div>
-            </div>
+                <div class="member-grid" id="home-advisors-grid" data-limit="3"></div>
             <div class="section-cta">
                 <a href="advisors/" class="cta-link">View All Advisors →</a>
             </div>
@@ -324,10 +225,14 @@
 
     <footer class="site-footer" id="site-footer"></footer>
 
+    <script src="js/members.js"></script>
     <script src="js/intro.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/hero.js"></script>
     <script src="js/footer.js"></script>
     <script src="js/alumni.js"></script>
+    <script>renderMembers("/executives.json","home-exec-grid");</script>
+    <script>renderMembers("/teachers.json","home-teachers-grid");</script>
+    <script>renderMembers("/advisors.json","home-advisors-grid");</script>
 </body>
 </html>

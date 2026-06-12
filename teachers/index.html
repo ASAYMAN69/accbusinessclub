@@ -62,55 +62,14 @@
     </div>
 
     <div class="page-content">
-        <div class="member-grid">
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/zerin-ahmed.webp" alt="Zerin Ahmed" loading="lazy">
-                </div>
-                <h3 class="member-name">Zerin Ahmed</h3>
-                <p class="member-role">Professor</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/tanjila-alam-sony.webp" alt="Tanjila Alam Sony" loading="lazy">
-                </div>
-                <h3 class="member-name">Tanjila Alam Sony</h3>
-                <p class="member-role">Faculty</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/tanvir-anwar.webp" alt="Tanvir Anwar" loading="lazy">
-                </div>
-                <h3 class="member-name">Tanvir Anwar</h3>
-                <p class="member-role">Assistant Professor</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/md-masum.webp" alt="Md Masum" loading="lazy">
-                </div>
-                <h3 class="member-name">Md Masum</h3>
-                <p class="member-role">Lecturer</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/rasina-afroz.webp" alt="Rasina Afroz" loading="lazy">
-                </div>
-                <h3 class="member-name">Rasina Afroz</h3>
-                <p class="member-role">Faculty</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/kaniz-fatema.webp" alt="Kaniz Fatema" loading="lazy">
-                </div>
-                <h3 class="member-name">Kaniz Fatema</h3>
-                <p class="member-role">Faculty</p>
-            </div>
-        </div>
+        <div class="member-grid" id="teachers-grid"></div>
     </div>
 
     <footer class="site-footer" id="site-footer"></footer>
 
     <script src="../js/navbar.js"></script>
     <script src="../js/footer.js"></script>
+    <script src="../js/members.js"></script>
+    <script>renderMembers("/teachers.json","teachers-grid");</script>
 </body>
 </html>

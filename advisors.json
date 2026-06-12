@@ -1,0 +1,7 @@
+[
+  { "id": "adv-01", "name": "Samiha Saiyara Saba", "role": "Chief Advisor", "image": "/assets/samiha-saiyara-saba.webp" },
+  { "id": "adv-02", "name": "Md Seefath E Karim Saad", "role": "Advisor", "image": "/assets/md-seefath-e-karim-saad.webp" },
+  { "id": "adv-03", "name": "Sherana Shaif Liana", "role": "Advisor", "image": "/assets/sherana-shaif-liana.webp" },
+  { "id": "adv-04", "name": "Tuba Sikder Bulbule", "role": "Advisor", "image": "/assets/tuba-sikder-bulbule.webp" },
+  { "id": "adv-05", "name": "Sanjida Jahan", "role": "Advisor", "image": "/assets/sanjida-jahan.webp" }
+]

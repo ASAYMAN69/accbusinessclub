@@ -1,0 +1,23 @@
+[
+  { "id": "exec-01", "name": "Siyam Sami Chowdhury", "role": "President", "image": "/assets/siyam-sami-chowdhury.webp" },
+  { "id": "exec-02", "name": "Mohammed Shahriar Hossain", "role": "Vice President", "image": "/assets/mohammed-shahriar-hossain.webp" },
+  { "id": "exec-03", "name": "Tahsin Nawal Rahman", "role": "General Secretary", "image": "/assets/tahsin-nawal-rahman.webp" },
+  { "id": "exec-04", "name": "Shahadat Islam Shadhin", "role": "Joint Secretary", "image": "/assets/shahadat-islam-shadhin.webp" },
+  { "id": "exec-05", "name": "Ahnaf Rashid", "role": "Organizing Secretary", "image": "/assets/ahnaf-rashid.webp" },
+  { "id": "exec-06", "name": "Swakshor Sarker", "role": "Joint Organizing Secretary", "image": "/assets/swakshor-sarker.webp" },
+  { "id": "exec-07", "name": "Abtahi Akbar Alif", "role": "Chief Coordinator", "image": "/assets/abtahi-akbar-alif.webp" },
+  { "id": "exec-08", "name": "Arafat Jamal Jim", "role": "Chief of Administration", "image": "/assets/arafat-jamal-jim.webp" },
+  { "id": "exec-09", "name": "Raysul Islam Rayhan", "role": "Assistant Chief of Administration", "image": "/assets/raysul-islam-rayhan.webp" },
+  { "id": "exec-10", "name": "Kazi Tahmid Hasan", "role": "Chief of Project & Technology", "image": "/assets/kazi-tahmid-hasan.webp" },
+  { "id": "exec-11", "name": "Tajbir Ahmed Prottoy", "role": "Assistant Chief of Project & Technology", "image": "/assets/tajbir-ahmed-prottoy.webp" },
+  { "id": "exec-12", "name": "Sumaiya Alam", "role": "Chief of Finance", "image": "/assets/sumaiya-alam.webp" },
+  { "id": "exec-13", "name": "Arib Mahmud", "role": "Assistant Chief of Finance", "image": "/assets/arib-mahmud.webp" },
+  { "id": "exec-14", "name": "Md. Fahim Kabir", "role": "Chief of Communication & Marketing", "image": "/assets/md-fahim-kabir.webp" },
+  { "id": "exec-15", "name": "Labiba Mamun Afra", "role": "Assistant Chief of Communication & Marketing", "image": "/assets/labiba-mamun-afra.webp" },
+  { "id": "exec-16", "name": "Tashfia Tabassum Maisha", "role": "Assistant Chief of Communication & Marketing", "image": "/assets/tashfia-tabassum-maisha.webp" },
+  { "id": "exec-17", "name": "Aurora Zaman", "role": "Chief of Photography", "image": "" },
+  { "id": "exec-18", "name": "Tonmoy Toyon Taj", "role": "Assistant Chief of Photography", "image": "/assets/tonmoy-toyon-taj.webp" },
+  { "id": "exec-19", "name": "Karima Chowdhury", "role": "Chief of Creative", "image": "/assets/karima-chowdhury.webp" },
+  { "id": "exec-20", "name": "Nuzahat Zafran Zara", "role": "Assistant Chief of Creative", "image": "/assets/nuzahat-zafran-zara.webp" },
+  { "id": "exec-21", "name": "Tanhaz Amrin", "role": "Assistant Chief of Creative", "image": "/assets/tanhaz-amrin.webp" }
+]

@@ -62,48 +62,14 @@
     </div>
 
     <div class="page-content">
-        <div class="member-grid">
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/samiha-saiyara-saba.webp" alt="Samiha Saiyara Saba" loading="lazy">
-                </div>
-                <h3 class="member-name">Samiha Saiyara Saba</h3>
-                <p class="member-role">Chief Advisor</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/md-seefath-e-karim-saad.webp" alt="Md Seefath E Karim Saad" loading="lazy">
-                </div>
-                <h3 class="member-name">Md Seefath E Karim Saad</h3>
-                <p class="member-role">Advisor</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/sherana-shaif-liana.webp" alt="Sherana Shaif Liana" loading="lazy">
-                </div>
-                <h3 class="member-name">Sherana Shaif Liana</h3>
-                <p class="member-role">Advisor</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/tuba-sikder-bulbule.webp" alt="Tuba Sikder Bulbule" loading="lazy">
-                </div>
-                <h3 class="member-name">Tuba Sikder Bulbule</h3>
-                <p class="member-role">Advisor</p>
-            </div>
-            <div class="member-card">
-                <div class="member-img-wrapper">
-                    <img class="member-img" src="../assets/sanjida-jahan.webp" alt="Sanjida Jahan" loading="lazy">
-                </div>
-                <h3 class="member-name">Sanjida Jahan</h3>
-                <p class="member-role">Advisor</p>
-            </div>
-        </div>
+        <div class="member-grid" id="advisors-grid"></div>
     </div>
 
     <footer class="site-footer" id="site-footer"></footer>
 
     <script src="../js/navbar.js"></script>
     <script src="../js/footer.js"></script>
+    <script src="../js/members.js"></script>
+    <script>renderMembers("/advisors.json","advisors-grid");</script>
 </body>
 </html>

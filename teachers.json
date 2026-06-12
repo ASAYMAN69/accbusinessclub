@@ -1,0 +1,8 @@
+[
+  { "id": "tch-01", "name": "Zerin Ahmed", "role": "Professor", "image": "/assets/zerin-ahmed.webp" },
+  { "id": "tch-02", "name": "Tanjila Alam Sony", "role": "Faculty", "image": "/assets/tanjila-alam-sony.webp" },
+  { "id": "tch-03", "name": "Tanvir Anwar", "role": "Assistant Professor", "image": "/assets/tanvir-anwar.webp" },
+  { "id": "tch-04", "name": "Md Masum", "role": "Lecturer", "image": "/assets/md-masum.webp" },
+  { "id": "tch-05", "name": "Rasina Afroz", "role": "Faculty", "image": "/assets/rasina-afroz.webp" },
+  { "id": "tch-06", "name": "Kaniz Fatema", "role": "Faculty", "image": "/assets/kaniz-fatema.webp" }
+]
