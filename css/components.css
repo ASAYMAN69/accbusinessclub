@@ -211,17 +211,40 @@
 /* --- YEAR FILTER TABS --- */
 .year-tabs {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px;
     margin-bottom: 40px;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    -webkit-scroll-snap-type: inline;
+    scroll-snap-type: inline mandatory;
+    scroll-padding: 16px;
+    padding: 0 16px;
     max-width: 100%;
 }
+.year-tabs::-webkit-scrollbar { display: none; width: 0; height: 0; }
 #alumni-tabs:empty { display: none; }
+.page-content:has(#alumni-tabs) { overflow-x: visible; }
+
+/* Center tabs on wider screens where nothing scrolls */
+@media (min-width: 768px) {
+    .year-tabs {
+        justify-content: center;
+        padding: 0;
+        overflow-x: visible;
+        scroll-snap-type: none;
+    }
+}
 
 .year-tab {
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
     padding: 8px 24px;
     border: 1px solid rgba(255,255,255,0.10);
     border-radius: 50px;
