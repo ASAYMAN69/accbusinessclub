@@ -643,3 +643,592 @@
     opacity: 1;
     transform: translateX(0);
 }
+
+/* --- PREMIUM PROFILE DETAIL MODAL SYSTEM --- */
+.profile-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-detail-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.profile-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 6, 10, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1;
+}
+
+.profile-modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 4vw, 30px);
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.profile-modal-close {
+    position: absolute;
+    top: max(20px, env(safe-area-inset-top));
+    right: max(20px, env(safe-area-inset-right));
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-modal-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    transform: scale(1.08) rotate(90deg);
+}
+
+/* Modal Card Wrapper: contains the card and keeps static buttons */
+.profile-modal-card-wrapper {
+    position: relative;
+    width: min(350px, 90vw);
+    height: min(520px, 78vh);
+    perspective: 1500px;
+}
+
+/* Info toggle button inside the card boundaries but doesn't flip */
+.profile-info-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    z-index: 25; /* Always on top of card content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    
+    /* Liquid glass effect */
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+    
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-info-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 35px 0 rgba(0, 0, 0, 0.4), inset 0 1px 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+.profile-info-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #ffffff;
+    position: absolute;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+/* Active icons transition */
+.profile-info-btn .back-svg {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+}
+
+.profile-info-btn .info-svg {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+.profile-modal-card-wrapper.flipped-state .profile-info-btn {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.profile-modal-card-wrapper.flipped-state .profile-info-btn .info-svg {
+    opacity: 0;
+    transform: rotate(180deg) scale(0.5);
+}
+
+.profile-modal-card-wrapper.flipped-state .profile-info-btn .back-svg {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+/* Card Container that flips */
+.profile-modal-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8);
+    border-radius: 24px;
+}
+
+.profile-modal-card-wrapper.flipped-state .profile-modal-card {
+    transform: rotateY(180deg);
+}
+
+/* Card Faces */
+.profile-card-front,
+.profile-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Front Face: image and name */
+.profile-card-front {
+    background: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 2;
+}
+
+.profile-card-img-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.profile-card-img-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 10, 0.95) 100%);
+    z-index: 2;
+}
+
+.profile-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-card-text {
+    position: relative;
+    z-index: 3;
+    padding: 30px 24px;
+    text-align: left;
+}
+
+.profile-front-name {
+    font-size: clamp(1.5rem, 6vw, 1.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.02em;
+}
+
+.profile-front-role {
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+    font-weight: 600;
+    color: var(--accent, var(--brand-blue));
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0;
+}
+
+/* Back Face: Solid background brought from website and parsed info */
+.profile-card-back {
+    background: #04060a; /* Solid dark color brought from website */
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.profile-card-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 24px 90px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.profile-card-scrollable::-webkit-scrollbar {
+    width: 5px;
+}
+.profile-card-scrollable::-webkit-scrollbar-track {
+    background: transparent;
+}
+.profile-card-scrollable::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+}
+.profile-card-scrollable::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Parsed Information Typography */
+.profile-modal-details-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.profile-detail-name {
+    font-size: clamp(1.4rem, 5vw, 1.6rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.02em;
+}
+
+.profile-detail-role {
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+    font-weight: 600;
+    color: var(--accent, var(--brand-blue));
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 4px 0;
+}
+
+.profile-detail-year {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+}
+
+/* Quote style */
+.profile-detail-quote {
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 3px solid var(--accent, var(--brand-blue));
+    padding: 16px 20px 16px 36px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 28px;
+}
+
+.profile-detail-quote .quote-mark {
+    position: absolute;
+    top: 4px;
+    left: 10px;
+    font-size: 3rem;
+    font-family: serif;
+    color: rgba(255, 255, 255, 0.08);
+    line-height: 1;
+}
+
+.profile-detail-quote p {
+    margin: 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Sections */
+.profile-detail-section {
+    margin-bottom: 28px;
+}
+
+.profile-detail-section h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 0 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding-bottom: 8px;
+}
+
+/* Achievements List */
+.profile-achievements-list {
+    margin: 0;
+    padding: 0 0 0 16px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.profile-achievements-list li {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.profile-achievements-list li::marker {
+    color: var(--accent, var(--brand-blue));
+}
+
+/* Floating Action Button (FAB) for Socials */
+.profile-social-fab {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    width: 56px;
+    height: 56px;
+}
+
+/* Base trigger button */
+.fab-trigger {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+.fab-trigger svg {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+.fab-trigger .close-svg {
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+}
+
+.fab-trigger .connect-svg {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+
+/* FAB options layout */
+.fab-options {
+    position: absolute;
+    bottom: 68px; /* Stack ABOVE the trigger */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px) scale(0.75);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+}
+
+/* Individual options */
+.fab-option {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fab-option svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.3s;
+}
+
+/* Specific social colors on hover */
+.fab-option.facebook { color: rgba(255, 255, 255, 0.9); }
+.fab-option.facebook:hover {
+    background: #1877f2;
+    border-color: #1877f2;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(24, 119, 242, 0.4);
+}
+
+.fab-option.instagram { color: rgba(255, 255, 255, 0.9); }
+.fab-option.instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(204, 35, 102, 0.4);
+}
+
+.fab-option.linkedin { color: rgba(255, 255, 255, 0.9); }
+.fab-option.linkedin:hover {
+    background: #0a66c2;
+    border-color: #0a66c2;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(10, 102, 194, 0.4);
+}
+
+.fab-option.whatsapp { color: rgba(255, 255, 255, 0.9); }
+.fab-option.whatsapp:hover {
+    background: #25d366;
+    border-color: #25d366;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4);
+}
+
+.fab-option:hover svg {
+    transform: scale(1.15);
+}
+
+/* Trigger states */
+.profile-social-fab:hover:not(.force-collapsed) .fab-options,
+.profile-social-fab.expanded .fab-options {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.profile-social-fab:hover:not(.force-collapsed) .fab-trigger,
+.profile-social-fab.expanded .fab-trigger {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+.profile-social-fab:hover:not(.force-collapsed) .fab-trigger .close-svg,
+.profile-social-fab.expanded .fab-trigger .close-svg {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+
+.profile-social-fab:hover:not(.force-collapsed) .fab-trigger .connect-svg,
+.profile-social-fab.expanded .fab-trigger .connect-svg {
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
+}
+
+/* Stagger transition delay when opening */
+.profile-social-fab:hover:not(.force-collapsed) .fab-option:nth-child(4),
+.profile-social-fab.expanded .fab-option:nth-child(4) { transition-delay: 0.05s; }
+.profile-social-fab:hover:not(.force-collapsed) .fab-option:nth-child(3),
+.profile-social-fab.expanded .fab-option:nth-child(3) { transition-delay: 0.1s; }
+.profile-social-fab:hover:not(.force-collapsed) .fab-option:nth-child(2),
+.profile-social-fab.expanded .fab-option:nth-child(2) { transition-delay: 0.15s; }
+.profile-social-fab:hover:not(.force-collapsed) .fab-option:nth-child(1),
+.profile-social-fab.expanded .fab-option:nth-child(1) { transition-delay: 0.2s; }
+
+/* Additional dynamic info rows */
+.profile-details-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.profile-detail-key {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+}
+
+.profile-detail-val {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    text-align: right;
+}
+
+/* --- LAPTOP/DESKTOP SPLIT VIEW MEDIA QUERY --- */
+@media (min-width: 768px) {
+    .profile-modal-card-wrapper {
+        width: min(820px, 85vw);
+        height: min(560px, 75vh);
+        perspective: none;
+    }
+    
+    .profile-modal-card {
+        transform: none !important;
+        display: flex;
+        flex-direction: row;
+        border-radius: 24px;
+        overflow: hidden;
+        perspective: none;
+        transform-style: flat;
+    }
+    
+    .profile-card-front,
+    .profile-card-back {
+        position: relative;
+        inset: auto;
+        width: 50%;
+        height: 100%;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+        transform: none !important;
+        border: none;
+        border-radius: 0;
+    }
+    
+    /* Front Face adjustments */
+    .profile-card-front {
+        z-index: 2;
+    }
+    
+    /* Back Face adjustments (placed side by side) */
+    .profile-card-back {
+        z-index: 2;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    /* Hide the info toggle button on desktop width since both sides are side-by-side */
+    .profile-info-btn {
+        display: none !important;
+    }
+}
