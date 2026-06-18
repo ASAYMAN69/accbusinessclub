@@ -881,6 +881,19 @@
     z-index: 1;
 }
 
+.profile-card-batch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent, var(--brand-blue));
+    opacity: 0.5;
+    z-index: 10;
+    line-height: 1;
+    pointer-events: none;
+}
+
 .profile-card-scrollable {
     flex: 1;
     overflow-y: auto;
@@ -908,6 +921,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding-bottom: 20px;
     margin-bottom: 24px;
+    padding-right: 90px; /* Prevents overlapping the batch watermark in the top right */
 }
 
 .profile-detail-name {
@@ -1077,6 +1091,20 @@
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.fab-option.disabled {
+    pointer-events: none !important;
+    opacity: 0.25 !important;
+    filter: grayscale(100%) !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+}
+
+.fab-option.disabled:hover {
+    transform: none !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
 .fab-option svg {
     width: 20px;
     height: 20px;
@@ -1229,6 +1257,18 @@
     
     /* Hide the info toggle button on desktop width since both sides are side-by-side */
     .profile-info-btn {
+        display: none !important;
+    }
+
+    .profile-card-batch {
+        top: 0;
+        right: 0;
+        font-size: 3rem;
+    }
+
+    /* Hide the front card text overlay and image gradient on desktop view */
+    .profile-card-front .profile-card-text,
+    .profile-card-img-container::after {
         display: none !important;
     }
 }
