@@ -63,9 +63,11 @@
 
 /* Full member grid for sub-pages */
 .page-content .member-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 260px));
-    justify-content: center;
     gap: clamp(16px, 2.5vw, 30px);
+}
+.page-content .member-card {
+    flex: 1 1 220px;
+    max-width: 260px;
 }
 
 @property --angle {

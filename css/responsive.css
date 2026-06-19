@@ -3,7 +3,7 @@
     .scroller-window { height: 90px; }
     .bento-grid { grid-template-columns: repeat(2, 1fr); }
     .card-wide { grid-column: span 2; }
-    .member-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+    .member-grid { gap: 24px; }
 }
 
 @media (max-width: 768px) {
@@ -21,7 +21,7 @@
     .card-wide .card-text-wrapper { max-width: 100%; }
     .bento-card p { max-width: 100%; }
 
-    .member-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .member-grid { gap: 16px; }
     .section-content .welcome-header,
     .section-content .team-header { margin-bottom: 20px; }
 
@@ -36,7 +36,7 @@
     .scroller-word { height: 55px; }
     .scroller-window { height: 55px; }
 
-    .member-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; gap: 16px; }
+    .member-grid { max-width: 320px; margin: 0 auto; gap: 16px; }
 }
 
 @media (max-width: 380px) {
