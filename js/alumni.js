@@ -258,6 +258,10 @@
             fab.classList.remove("expanded");
             fab.classList.remove("force-collapsed");
           }
+          // Close when clicking outside the card wrapper / close button
+          if (!e.target.closest('.profile-modal-card-wrapper') && !e.target.closest('.profile-modal-close')) {
+            closeModal();
+          }
         });
 
         document.addEventListener("keydown", function (e) {
