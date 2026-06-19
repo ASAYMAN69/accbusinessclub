@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="footer-inner">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img class="footer-logo" src="/assets/logo/acc_bc.png" alt="ACC">
+                    <div class="footer-logos">
+                        <img class="footer-logo" src="/assets/logo/acc.png" alt="ACC">
+                        <img class="footer-logo" src="/assets/logo/acc_bc.png" alt="ACC Business Club">
+                    </div>
                     <p class="footer-tagline">Adamjee Cantonment College Business Club</p>
                     <p class="footer-email">abc@acc.edu.bd</p>
                 </div>
