@@ -1019,6 +1019,17 @@
     width: 56px;
     height: 56px;
 }
+/* Invisible hit-area bridge above the trigger so moving to
+   the options doesn't lose hover. Covers the 12px gap + options. */
+.profile-social-fab::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 56px;
+    height: 230px;
+    pointer-events: auto;
+}
 
 /* Base trigger button */
 .fab-trigger {
