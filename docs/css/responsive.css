@@ -9,6 +9,7 @@
 @media (max-width: 768px) {
     .hamburger { display: flex; }
     .nav-links { display: none; }
+    .join-btn { display: none; }
     .navbar.spread { width: calc(100% - 24px); }
     .nav-content { padding: 0 12px 0 16px; }
 

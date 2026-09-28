@@ -11,8 +11,7 @@ docs/            → the website (deployable root, GH Pages-ready)
   teachers/      → Teachers panel
   advisors/      → Advisors panel
   alumni/        → Alumni panel (year tabs)
-  events/        → Events
-  gallery/       → Gallery
+  gallery/       → Gallery (bento grid: images + achievements + events)
   about/         → About
   contact/       → Contact
   js/            → renderers: members.js (cards + profile modal), hero.js, alumni.js, …
@@ -33,7 +32,8 @@ social links (Facebook / Instagram / LinkedIn / WhatsApp).
 Edit the JSON files in `docs/` — no code changes needed:
 
 - `executives.json`, `teachers.json`, `advisors.json`, `alumni.json` — member records (`name`, `role`, `image`, `quote`, `achievements`, socials, `year` for alumni)
-- `events.json`, `gallery.json`, `about.json`, `contact.json` — page content
+- `gallery.json` — gallery bento grid (`type`: `image` | `achievement` | `event`, with `title`/`year`/`description` for text tiles)
+- `about.json`, `contact.json` — page content
 
 ### Running locally
 

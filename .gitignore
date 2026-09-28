@@ -1,4 +1,7 @@
 # Vendored tooling + scratch / agent state
+AGENT.md
+AGENTS/
+TODO.md
 btw/
 .codegraph/
 .omo/
@@ -8,3 +11,11 @@ temp/
 # Crawl & asset archives (not part of the site)
 results/
 miscellaneous/
+
+# Dependencies & Environment
+node_modules/
+.env
+.vite/
+docs/.vite/
+redesign/
+*.deb

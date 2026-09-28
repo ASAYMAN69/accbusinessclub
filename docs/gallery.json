@@ -1,16 +1,164 @@
 [
-  { "id": "gal-01", "image": "/assets/gallery/gallery-1.webp", "caption": "Gallery image" },
-  { "id": "gal-02", "image": "/assets/gallery/gallery-2.webp", "caption": "Gallery image" },
-  { "id": "gal-03", "image": "/assets/gallery/gallery-3.webp", "caption": "Gallery image" },
-  { "id": "gal-04", "image": "/assets/gallery/gallery-4.webp", "caption": "Gallery image" },
-  { "id": "gal-05", "image": "/assets/gallery/gallery-5.webp", "caption": "Gallery image" },
-  { "id": "gal-06", "image": "/assets/gallery/gallery-6.webp", "caption": "Gallery image" },
-  { "id": "gal-07", "image": "/assets/gallery/gallery-7.webp", "caption": "Gallery image" },
-  { "id": "gal-08", "image": "/assets/gallery/gallery-8.webp", "caption": "Gallery image" },
-  { "id": "gal-09", "image": "/assets/gallery/gallery-9.webp", "caption": "Gallery image" },
-  { "id": "gal-10", "image": "/assets/gallery/gallery-10.webp", "caption": "Gallery image" },
-  { "id": "gal-11", "image": "/assets/gallery/gallery-11.webp", "caption": "Gallery image" },
-  { "id": "gal-12", "image": "/assets/gallery/gallery-12.webp", "caption": "Gallery image" },
-  { "id": "gal-13", "image": "/assets/gallery/gallery-13.webp", "caption": "Gallery image" },
-  { "id": "gal-14", "image": "/assets/gallery/gallery-14.webp", "caption": "Gallery image" }
+  {
+    "id": "gal-01",
+    "type": "image",
+    "image": "/assets/gallery/gallery-1.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "ach-01",
+    "type": "achievement",
+    "title": "National Business Conference — 2nd Place",
+    "year": "2025",
+    "description": "The club's case team represented ACC at the national conference and secured 2nd place among 40+ competing teams."
+  },
+  {
+    "id": "gal-02",
+    "type": "image",
+    "image": "/assets/gallery/gallery-2.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "evt-01",
+    "type": "event",
+    "title": "Networking Session",
+    "description": "Building connections that matter. Members engaged with industry professionals."
+  },
+  {
+    "id": "gal-03",
+    "type": "image",
+    "image": "/assets/gallery/gallery-3.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "gal-04",
+    "type": "image",
+    "image": "/assets/gallery/gallery-4.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "ach-02",
+    "type": "achievement",
+    "title": "Digital Transformation Initiative",
+    "year": "2025",
+    "description": "Spearheaded the club's move to a digital-first presence, increasing member engagement by 40%."
+  },
+  {
+    "id": "gal-05",
+    "type": "image",
+    "image": "/assets/gallery/gallery-5.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "evt-02",
+    "type": "event",
+    "title": "Marketing Workshop",
+    "description": "Hands-on workshop on consumer behavior and growth strategies."
+  },
+  {
+    "id": "gal-06",
+    "type": "image",
+    "image": "/assets/gallery/gallery-6.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "ach-03",
+    "type": "achievement",
+    "title": "Case Competition Mentorship Circuit",
+    "year": "2024",
+    "description": "Mentored 20+ junior members through structured case competition preparation, producing three podium finishes."
+  },
+  {
+    "id": "gal-07",
+    "type": "image",
+    "image": "/assets/gallery/gallery-7.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "evt-03",
+    "type": "event",
+    "title": "Leadership Summit",
+    "description": "Executive team leading discussions on organizational ownership."
+  },
+  {
+    "id": "gal-08",
+    "type": "image",
+    "image": "/assets/gallery/gallery-8.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "gal-09",
+    "type": "image",
+    "image": "/assets/gallery/gallery-9.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "ach-04",
+    "type": "achievement",
+    "title": "FinTech Forum Hosted",
+    "year": "2024",
+    "description": "Gathered 150+ students for a flagship forum bridging decentralized finance with legacy financial structures."
+  },
+  {
+    "id": "gal-10",
+    "type": "image",
+    "image": "/assets/gallery/gallery-10.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "evt-04",
+    "type": "event",
+    "title": "Finance Forum",
+    "description": "Deep dive into market mechanics and portfolio evaluation."
+  },
+  {
+    "id": "gal-11",
+    "type": "image",
+    "image": "/assets/gallery/gallery-11.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "ach-05",
+    "type": "achievement",
+    "title": "First National Conference Qualifier",
+    "year": "2023",
+    "description": "The first ACC team to qualify for the national business conference, setting the benchmark for future cohorts."
+  },
+  {
+    "id": "evt-05",
+    "type": "event",
+    "title": "Strategy Hackathon",
+    "description": "Teams competed in game-theory based business simulations."
+  },
+  {
+    "id": "gal-12",
+    "type": "image",
+    "image": "/assets/gallery/gallery-12.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "ach-06",
+    "type": "achievement",
+    "title": "Campus Welcome Campaign",
+    "year": "2023",
+    "description": "Ran a cross-department recruitment campaign that tripled club membership within a semester."
+  },
+  {
+    "id": "gal-13",
+    "type": "image",
+    "image": "/assets/gallery/gallery-13.webp",
+    "caption": "Gallery image"
+  },
+  {
+    "id": "evt-06",
+    "type": "event",
+    "title": "FinTech Night",
+    "description": "Exploring decentralized protocols and digital value workflows."
+  },
+  {
+    "id": "gal-14",
+    "type": "image",
+    "image": "/assets/gallery/gallery-14.webp",
+    "caption": "Gallery image"
+  }
 ]

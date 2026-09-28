@@ -18,9 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h4>Quick Links</h4>
                     <a href="/">Home</a>
                     <a href="/about/">About Us</a>
-                    <a href="/events/">Events</a>
                     <a href="/gallery/">Gallery</a>
-                    <a href="/achievements/">Achievements</a>
                     <a href="/tour/">Tour</a>
                 </div>
                 <div class="footer-links-col">
@@ -32,8 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="footer-links-col">
                     <h4>Connect</h4>
                     <a href="/contact/">Contact</a>
-                    <a href="#" class="footer-social" aria-label="Facebook">Facebook</a>
-                    <a href="#" class="footer-social" aria-label="Instagram">Instagram</a>
                 </div>
             </div>
             <div class="footer-bottom">

@@ -97,43 +97,27 @@
 .join-btn {
     display: inline-flex; align-items: center; justify-content: center;
     margin-left: 35px; padding: 8px 20px; border-radius: 999px;
-    color: #e9f7ff; font-size: 0.85rem; font-weight: 600;
-    text-decoration: none; white-space: nowrap;
-    position: relative; isolation: isolate;
-    background: transparent;
-    box-shadow: 0 5px 18px rgba(0,0,0,0.28);
-    transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+    color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+    letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
+    position: relative; isolation: isolate; cursor: pointer;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+    border: none;
+    box-shadow: 0 6px 24px rgba(34, 147, 205, 0.35);
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease, filter 200ms ease;
 }
-.join-btn:hover,
-.hero-join-cta:hover,
-.mobile-menu-cta:hover {
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(45,177,220,0.28);
+@media (hover: hover) and (pointer: fine) {
+    .join-btn:hover,
+    .hero-join-cta:hover,
+    .mobile-menu-cta:hover {
+        box-shadow: 0 8px 30px rgba(34, 147, 205, 0.5);
+        filter: brightness(1.08);
+    }
 }
 .join-btn:active,
 .hero-join-cta:active,
-.mobile-menu-cta:active { transform: translateY(0) scale(0.98); }
-.metal-fx-button canvas { pointer-events: none; }
-.metal-fx-static {
-    position: relative;
-    display: inline-flex;
-    isolation: isolate;
-    border-radius: inherit;
-}
-.metal-fx-static > canvas {
-    position: absolute !important;
-    z-index: 0 !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: inherit;
-    pointer-events: none;
-}
-.metal-fx-button {
-    position: relative;
-    z-index: 1;
-    background: transparent;
+.mobile-menu-cta:active {
+    transform: scale(0.98);
+    filter: brightness(0.96);
 }
 
 /* --- HAMBURGER BUTTON --- */
@@ -175,10 +159,13 @@
 
 .mobile-menu-cta {
     position: relative; isolation: isolate;
-    margin-top: 18px; border-radius: 999px;
-    color: #e9f7ff; font-weight: 600;
-    background: transparent;
-    box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+    margin-top: 18px; padding: 14px 32px; border-radius: 999px;
+    color: #ffffff; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 600;
+    letter-spacing: -0.01em; text-decoration: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+    border: none;
+    box-shadow: 0 6px 24px rgba(34, 147, 205, 0.35);
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease, filter 200ms ease;
 }
 
 /* --- HERO SECTION --- */
@@ -202,17 +189,16 @@
 
 .hero-join-cta {
     display: inline-flex; align-items: center; gap: 12px;
-    align-self: flex-start; margin-top: 18px; padding: 12px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 999px;
-    position: relative; isolation: isolate;
-    color: #e9f7ff; font-size: 0.95rem; font-weight: 650;
-    text-decoration: none;
-    background: transparent;
-    border-color: rgba(112, 220, 255, 0.45);
-    box-shadow: 0 6px 22px rgba(0,0,0,0.3);
-    transition: background 180ms ease, border-color 180ms ease, transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+    align-self: flex-start; margin-top: 24px; padding: 14px 28px;
+    border: none; border-radius: 999px;
+    position: relative; isolation: isolate; cursor: pointer;
+    color: #ffffff; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 600;
+    letter-spacing: -0.01em; text-decoration: none;
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+    box-shadow: 0 6px 24px rgba(34, 147, 205, 0.35);
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease, filter 200ms ease;
 }
-.hero-join-cta span { color: #167fa8; font-size: 1.1rem; }
+.hero-join-cta span { color: #ffffff; font-size: 1.1rem; line-height: 1; }
 
 .scroller-window {
     height: 110px; position: relative; overflow: hidden; margin-top: 10px;
