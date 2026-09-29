@@ -7,6 +7,7 @@ Website for the [Adamjee Cantonment College](https://accbusinessclub.cloud) Busi
 ```
 docs/            → the website (deployable root, GH Pages-ready)
   index.html     → home (hero, bento grid, member previews)
+  join/          → applicant join form (POSTs to the backend API)
   executives/    → Executive Members panel
   teachers/      → Teachers panel
   advisors/      → Advisors panel
@@ -14,10 +15,21 @@ docs/            → the website (deployable root, GH Pages-ready)
   gallery/       → Gallery (bento grid: images + achievements + events)
   about/         → About
   contact/       → Contact
-  js/            → renderers: members.js (cards + profile modal), hero.js, alumni.js, …
+  js/            → renderers: members.js (cards + profile modal), hero.js, alumni.js, join.js, …
   css/           → base / layout / components / pages / responsive
   *.json         → all site content lives here (acts as the CMS)
   assets/        → member photos (.webp), gallery images, logo
+
+src/             → registration API (Express, no build step)
+  index.js       → server entry (reads PORT from .env)
+  app.js         → express app + middleware wiring
+  config/        → env.js, supabase.js
+  middleware/    → cors, error handlers
+  routes/        → /api/public/registration route
+  services/      → registration.service.js, turnstile.service.js
+  validators/    → registration.validator.js (single source of truth for field rules)
+  db/migrations/ → SQL for the Supabase `registrations` table
+  tests/         → verify-registration.js (33-case contract suite)
 ```
 
 ## How it works
@@ -48,6 +60,17 @@ npx serve docs
 
 > Note: navigation uses absolute paths (e.g. `/executives.json`), so serve at
 > the domain root — that's how it runs on accbusinessclub.cloud.
+
+### Running the backend
+
+```sh
+node src/index.js            # or: npm start
+npm run verify:registration  # 33-case validation contract suite (no server needed)
+```
+
+Requires `.env` with `SUPABASE_BASE_URL`, `SUPABASE_SERVICE_ROLE_SECRET`,
+`TURNSTILE_SECRET_KEY`, `ALLOWED_ORIGINS`, `PORT`. Schema changes live in
+`src/db/migrations/` and are pasted into the Supabase SQL Editor.
 
 ## Repo hygiene
 
