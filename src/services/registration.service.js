@@ -27,7 +27,6 @@ async function submitRegistration(rawBody, clientIp) {
         prev_club: v.value.prevClub,
         joined_clubs: v.value.joinedClubs,
         name_of_clubs: v.value.nameOfClubs,
-        prev_club_name: v.value.prevClubName,
         wp_number: v.value.wpNumber,
         fb_id: v.value.fbID,
       });

@@ -141,15 +141,6 @@ function validateRegistration(body) {
   if (!isBinary(body.joinedClubs)) errors.push({ field: "joinedClubs", err: "Answer whether you joined any other ACC club." });
   else out.joinedClubs = toBool(body.joinedClubs);
 
-  // prevClubName (required iff prevClub === true)
-  if (out.prevClub === true) {
-    const pn = validateClubName(body.prevClubName, "Previous club details");
-    if (!pn.ok) errors.push({ field: "prevClubName", err: pn.err });
-    else out.prevClubName = pn.value;
-  } else {
-    out.prevClubName = null;
-  }
-
   // nameOfClubs (required iff joinedClubs === true)
   if (out.joinedClubs === true) {
     const cn = validateClubName(body.nameOfClubs, "Club names");

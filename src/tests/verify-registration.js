@@ -13,7 +13,7 @@ function bad(desc, got) { fail++; console.error("  ✗", desc, got || ""); }
 const VALID = {
   fullName: "Ayman S.", collegeId: "123456", section: "S2", house: "MR",
   interests: ["Networking"], likeCookies: true,
-  prevClub: false, joinedClubs: false, prevClubName: null, nameOfClubs: null,
+  prevClub: false, joinedClubs: false, nameOfClubs: null,
   wpNumber: "+8801712345678", fbID: null, cf_token: "XXXX.DUMMY.TOKEN.XXXX",
 };
 
@@ -26,7 +26,7 @@ function test(name, body, expect) {
 
 // --- happy path
 test("valid minimal (no DB)", { ...VALID }, true);
-test("valid full", { ...VALID, prevClub: true, prevClubName: "Debate Circle", joinedClubs: true, nameOfClubs: "Rotaract, Chess", fbID: "https://facebook.com/aymansadiq" }, true);
+test("valid full", { ...VALID, prevClub: true, joinedClubs: true, nameOfClubs: "Rotaract, Chess", fbID: "https://facebook.com/aymansadiq" }, true);
 
 // --- fullName
 test("fullName empty", { ...VALID, fullName: "" }, false);
@@ -62,11 +62,6 @@ test("fb good m.facebook", { ...VALID, fbID: "https://m.facebook.com/aymansadiq"
 // --- booleans
 test("prevClub missing", { ...VALID, prevClub: undefined }, false);
 test("joinedClubs missing", { ...VALID, joinedClubs: undefined }, false);
-
-// --- conditional prevClubName
-test("prevClub true no detail", { ...VALID, prevClub: true, prevClubName: "" }, false);
-test("prevClub true good detail", { ...VALID, prevClub: true, prevClubName: "Debate Circle" }, true);
-test("prevClub false detail ignored", { ...VALID, prevClub: false, prevClubName: "Debate Circle" }, true);
 
 // --- conditional nameOfClubs
 test("joinedClubs true no name", { ...VALID, joinedClubs: true, nameOfClubs: "" }, false);
