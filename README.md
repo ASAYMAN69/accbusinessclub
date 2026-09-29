@@ -25,8 +25,8 @@ src/             → registration API (Express, no build step)
   app.js         → express app + middleware wiring
   config/        → env.js, supabase.js
   middleware/    → cors, error handlers
-  routes/        → /api/public/registration route
-  services/      → registration.service.js, turnstile.service.js
+  routes/        → /api/public/registration route, /api/health route
+  services/      → registration.service.js, turnstile.service.js, auto-ping.service.js
   validators/    → registration.validator.js (single source of truth for field rules)
   db/migrations/ → SQL for the Supabase `registrations` table
   tests/         → verify-registration.js (33-case contract suite)
@@ -71,6 +71,11 @@ npm run verify:registration  # 33-case validation contract suite (no server need
 Requires `.env` with `SUPABASE_BASE_URL`, `SUPABASE_SERVICE_ROLE_SECRET`,
 `TURNSTILE_SECRET_KEY`, `ALLOWED_ORIGINS`, `PORT`. Schema changes live in
 `src/db/migrations/` and are pasted into the Supabase SQL Editor.
+
+`GET /api/health` is a CORS-free liveness probe (`200 {"status":"ok"}`).
+`AUTO_PING_TARGETS` (comma-separated URLs, optional) makes the server GET those
+URLs itself — one independent loop per target: fire immediately, wait a random
+1–10 s, repeat. Empty value disables it. See `AGENTS/health-auto-ping.md`.
 
 ## Repo hygiene
 
