@@ -9,4 +9,19 @@ const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_SECRET || "";
 const REGISTRATION_TABLE = process.env.SUPABASE_REGISTRATION_TABLE_NAME || "registrations";
 const SUPABASE_ENABLED = Boolean(SUPABASE_URL && SUPABASE_KEY);
 
-module.exports = { PORT, CF_SECRET, ALLOWED_ORIGINS, SUPABASE_URL, SUPABASE_KEY, REGISTRATION_TABLE, SUPABASE_ENABLED };
+const RAW_PING_TARGETS = process.env.AUTO_PING_TARGETS || "";
+const AUTO_PING_TARGETS = RAW_PING_TARGETS.split(",")
+  .map((entry) => entry.trim())
+  .filter(Boolean)
+  .map((entry) => (/^[a-z][a-z0-9+.-]*:\/\//i.test(entry) ? entry : `https://${entry}`));
+
+module.exports = {
+  PORT,
+  CF_SECRET,
+  ALLOWED_ORIGINS,
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  REGISTRATION_TABLE,
+  SUPABASE_ENABLED,
+  AUTO_PING_TARGETS,
+};
