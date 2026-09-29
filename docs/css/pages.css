@@ -873,6 +873,8 @@ legend.join-label {
 .join-dropdown-trigger.invalid,
 .join-input.invalid { border-bottom-color: rgba(255, 107, 107, 0.7); }
 
+.yn-pill.invalid { border-color: rgba(255, 107, 107, 0.7); }
+
 @media (hover: hover) and (pointer: fine) {
     .join-dropdown-option:hover {
         background: rgba(255, 255, 255, 0.05);
@@ -881,7 +883,8 @@ legend.join-label {
 }
 
 .interest-pills,
-.cookie-pills {
+.cookie-pills,
+.yn-pills {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -892,8 +895,14 @@ legend.join-label {
     max-width: 360px;
 }
 
+.yn-pills {
+    gap: 8px;
+    max-width: 360px;
+}
+
 .interest-pill,
-.cookie-pill {
+.cookie-pill,
+.yn-pill {
     padding: 9px 18px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -942,7 +951,8 @@ legend.join-label {
 
 @media (hover: hover) and (pointer: fine) {
     .interest-pill:hover,
-    .cookie-pill:hover {
+    .cookie-pill:hover,
+    .yn-pill:hover {
         border-color: rgba(255, 255, 255, 0.45);
         color: #ffffff;
     }
@@ -964,6 +974,57 @@ legend.join-label {
     background-color: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.45);
 }
+
+.yn-pill {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 110px;
+    padding: 13px 18px 13px 42px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.yn-pill::before {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    display: grid;
+    width: 17px;
+    height: 17px;
+    place-items: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.yn-yes::before { content: "+"; }
+.yn-no::before { content: "-"; }
+
+.yn-pill:active { transform: scale(0.97); }
+
+.yn-pill.selected {
+    background-color: rgba(34, 147, 205, 0.14);
+    border-color: rgba(34, 147, 205, 0.65);
+    color: #ffffff;
+}
+
+.yn-no.selected {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.join-conditional {
+    display: none;
+    margin: 4px 0 0;
+    padding: 14px 0 18px 18px;
+    border-left: 2px solid rgba(34, 147, 205, 0.45);
+}
+
+.join-conditional.show { display: block; }
 
 .pills-error {
     display: none;

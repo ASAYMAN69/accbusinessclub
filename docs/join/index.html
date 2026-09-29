@@ -166,6 +166,47 @@
                         <p class="pills-error" id="interest-error">Pick at least one interest.</p>
                     </fieldset>
 
+                    <fieldset class="join-field join-choice-field" id="field-prev-club">
+                        <legend class="join-label">Any previous clubbing experience?</legend>
+                        <input type="hidden" id="join-prev-club" name="prevClub" value="">
+                        <div class="yn-pills" role="group" aria-label="Previous clubbing experience">
+                            <button type="button" class="yn-pill yn-yes" data-field="prevClub" aria-pressed="false">Yes</button>
+                            <button type="button" class="yn-pill yn-no" data-field="prevClub" aria-pressed="false">No</button>
+                        </div>
+                        <p class="join-hint">Helps us place you in the right circle.</p>
+                        <p class="pills-error" id="prev-club-error">Please answer.</p>
+                    </fieldset>
+
+                    <fieldset class="join-field join-choice-field" id="field-joined-clubs">
+                        <legend class="join-label">Joined any other club in ACC?</legend>
+                        <input type="hidden" id="join-joined-clubs" name="joinedClubs" value="">
+                        <div class="yn-pills" role="group" aria-label="Joined another ACC club">
+                            <button type="button" class="yn-pill yn-yes" data-field="joinedClubs" aria-pressed="false">Yes</button>
+                            <button type="button" class="yn-pill yn-no" data-field="joinedClubs" aria-pressed="false">No</button>
+                        </div>
+                        <p class="pills-error" id="joined-clubs-error">Please answer.</p>
+                    </fieldset>
+
+                    <div class="join-field join-conditional" id="field-name-of-clubs">
+                        <label class="join-label" for="join-name-of-clubs">Name of the clubs you joined</label>
+                        <input class="join-input" id="join-name-of-clubs" name="nameOfClubs" type="text" placeholder="e.g. Rotaract, Chess" maxlength="256" pattern="[A-Za-z0-9 ().,:]+" title="A-Z, a-z, 0-9, spaces, ().,:" autocomplete="off">
+                        <p class="join-hint">A-Z a-z 0-9 spaces ().,: max 256 characters.</p>
+                        <p class="pills-error" id="name-of-clubs-error">Please add the club names.</p>
+                    </div>
+
+                    <div class="join-field" id="field-wp">
+                        <label class="join-label" for="join-wp">Whatsapp number <span class="join-hint" style="display:inline;font-weight:400;opacity:.6">(required)</span></label>
+                        <input class="join-input" id="join-wp" name="wpNumber" type="tel" inputmode="tel" placeholder="e.g. +8801712345678" maxlength="20" autocomplete="tel" required>
+                        <p class="pills-error" id="wp-error">Please add a valid Whatsapp number.</p>
+                    </div>
+
+                    <div class="join-field" id="field-fb">
+                        <label class="join-label" for="join-fb">Facebook ID Link <span class="join-hint" style="display:inline;font-weight:400;opacity:.6">(optional)</span></label>
+                        <input class="join-input" id="join-fb" name="fbID" type="url" placeholder="e.g. https://facebook.com/yourname" maxlength="200" autocomplete="url">
+                        <p class="join-hint">Full https://facebook.com/yourname link.</p>
+                        <p class="pills-error" id="fb-error">Please add a valid Facebook profile link.</p>
+                    </div>
+
                     <fieldset class="join-field join-choice-field cookie-choice-field" id="field-cookies">
                         <legend class="join-label">Do you like cookies?</legend>
                         <div class="cookie-pills" role="group" aria-label="Do you like cookies">

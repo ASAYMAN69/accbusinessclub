@@ -22,6 +22,20 @@
     var submitBtn = document.getElementById("join-submit-btn") || form.querySelector('button[type="submit"]');
     var smoothScroll = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 
+    var prevClubPills = form.querySelectorAll(".yn-pill[data-field='prevClub']");
+    var prevClubInput = document.getElementById("join-prev-club");
+    var prevClubError = document.getElementById("prev-club-error");
+    var joinedClubsPills = form.querySelectorAll(".yn-pill[data-field='joinedClubs']");
+    var joinedClubsInput = document.getElementById("join-joined-clubs");
+    var joinedClubsError = document.getElementById("joined-clubs-error");
+    var nameOfClubsInput = document.getElementById("join-name-of-clubs");
+    var nameOfClubsError = document.getElementById("name-of-clubs-error");
+    var nameOfClubsField = document.getElementById("field-name-of-clubs");
+    var wpInput = document.getElementById("join-wp");
+    var wpError = document.getElementById("wp-error");
+    var fbInput = document.getElementById("join-fb");
+    var fbError = document.getElementById("fb-error");
+
     var turnstileWidgetId = null;
     var turnstileToken = "";
 
@@ -180,12 +194,95 @@
         if (cfError) cfError.classList.remove("show");
       }
 
-      return {
-        valid: valid,
-        el: document.getElementById("cf-turnstile-wrap") || cfError,
-        focusEl: document.getElementById("cf-turnstile-widget")
-      };
-    }
+       return {
+         valid: valid,
+         el: document.getElementById("cf-turnstile-wrap") || cfError,
+         focusEl: document.getElementById("cf-turnstile-widget")
+       };
+     }
+
+     function validateYN(pills, errorEl, fieldEl, showError) {
+       var chosen = selectedOf(pills);
+       var valid = chosen.length === 1;
+       if (showError) {
+         if (errorEl) errorEl.classList.toggle("show", !valid);
+         pills.forEach(function (p) { p.classList.toggle("invalid", !valid && !p.classList.contains("selected")); });
+       } else if (valid) {
+         if (errorEl) errorEl.classList.remove("show");
+         pills.forEach(function (p) { p.classList.remove("invalid"); });
+       }
+       return { valid: valid, el: fieldEl, focusEl: pills[0] };
+     }
+
+     function validateFreeText(input, errorEl, fieldEl, maxLen, pattern, showError) {
+       var val = input.value.trim();
+       var valid = true;
+       var msg = "";
+       if (!val) { msg = "This field is required."; valid = false; }
+       else if (val.length > maxLen) { msg = "Must be " + maxLen + " characters or fewer."; valid = false; }
+       else if (!pattern.test(val)) { msg = "Only A-Z, a-z, 0-9, spaces, and ().,: allowed."; valid = false; }
+       if (showError) {
+         if (errorEl) { errorEl.textContent = msg; errorEl.classList.toggle("show", !valid); }
+         input.classList.toggle("invalid", !valid);
+       } else if (valid) {
+         if (errorEl) errorEl.classList.remove("show");
+         input.classList.remove("invalid");
+       }
+       return { valid: valid, el: fieldEl, focusEl: input };
+     }
+
+     var WP_RE = /^\+[1-9][0-9]{7,14}$/;
+     var FB_USERNAME_RE = /^[A-Za-z0-9._-]{1,64}$/;
+     var FB_RESERVED = new Set(["profile.php","groups","events","pages","photo","photos","videos","watch","marketplace","sharer","login","help","about","settings"]);
+
+     function validateWpNumber(showError) {
+       var raw = wpInput.value.trim();
+       var s = raw.replace(/[\s.\-()]/g, "");
+       if (s.startsWith("00")) s = "+" + s.slice(2);
+       else if (s.startsWith("0") && /^\d{11}$/.test(s)) s = "+880" + s.slice(1);
+       else if (/^\d{12}$/.test(s) && s.startsWith("880")) s = "+" + s;
+       else if (/^\d{9,15}$/.test(s)) s = "+" + s;
+       var msg = "", valid = true;
+       if (!raw) { msg = "Whatsapp number is required."; valid = false; }
+       else if (!s.startsWith("+")) { msg = "Add country code, e.g. +8801712345678."; valid = false; }
+       else if (!WP_RE.test(s)) { msg = "Enter 8-15 digits after the country code."; valid = false; }
+       else if (s.startsWith("+880") && !/^\+8801[3-9]\d{8}$/.test(s)) { msg = "Enter a valid Bangladeshi mobile (01[3-9]XXXXXXXX)."; valid = false; }
+       if (showError) {
+         if (wpError) { wpError.textContent = msg; wpError.classList.toggle("show", !valid); }
+         wpInput.classList.toggle("invalid", !valid);
+       } else if (valid) {
+         if (wpError) wpError.classList.remove("show");
+         wpInput.classList.remove("invalid");
+       }
+       return { valid: valid, el: document.getElementById("field-wp"), focusEl: wpInput };
+     }
+
+     function validateFbId(showError) {
+       var raw = fbInput.value.trim();
+       if (!raw) { if (showError) { fbError.classList.remove("show"); fbInput.classList.remove("invalid"); } return { valid: true, el: document.getElementById("field-fb"), focusEl: fbInput }; }
+       var msg = "", valid = true, url;
+       try { url = new URL(raw); } catch { msg = "Invalid link — include https://, e.g. https://facebook.com/yourname."; valid = false; }
+       if (valid && url.protocol !== "https:") { msg = "Only https:// links are accepted."; valid = false; }
+       if (valid) {
+         var host = url.hostname.toLowerCase().replace(/^www\./, "");
+         if (host !== "facebook.com" && host !== "m.facebook.com" && host !== "fb.com" && host !== "www.fb.com") { msg = "Must be a Facebook link (facebook.com or fb.com)."; valid = false; }
+       }
+       if (valid) {
+         var path = url.pathname.replace(/^\//, "").replace(/\/+$/, "");
+         var seg = path.split("/").filter(Boolean);
+         if (!seg.length) { msg = "Missing username — link should end with your profile name."; valid = false; }
+         else if (seg.length > 1 || FB_RESERVED.has(seg[seg.length - 1])) { msg = "Use your profile link only, not a group/page/event/photo."; valid = false; }
+         else if (!FB_USERNAME_RE.test(seg[seg.length - 1])) { msg = "Profile names allow only letters, numbers, . - _."; valid = false; }
+       }
+       if (showError) {
+         if (fbError) { fbError.textContent = msg; fbError.classList.toggle("show", !valid); }
+         fbInput.classList.toggle("invalid", !valid);
+       } else if (valid) {
+         if (fbError) fbError.classList.remove("show");
+         fbInput.classList.remove("invalid");
+       }
+       return { valid: valid, el: document.getElementById("field-fb"), focusEl: fbInput };
+     }
 
     // 2. Real-time / Deactivation (Blur) Handlers
     var debouncedNameCheck = debounce(function () {
@@ -228,26 +325,85 @@
       }
     });
 
-    function bindToggle(btn, single) {
-      btn.addEventListener("click", function () {
-        if (single) {
-          cookiePills.forEach(function (other) {
-            other.classList.remove("selected");
-            other.setAttribute("aria-pressed", "false");
-          });
-          btn.classList.add("selected");
-          btn.setAttribute("aria-pressed", "true");
-          validateCookies(true);
-        } else {
-          var now = btn.classList.toggle("selected");
-          btn.setAttribute("aria-pressed", String(now));
-          validateInterests(true);
+    function revealConditional(triggerInput, conditionalField, textInput) {
+      var show = triggerInput.value === "true";
+      if (show) {
+        conditionalField.classList.add("show");
+      } else {
+        conditionalField.classList.remove("show");
+        textInput.value = "";
+        var err = textInput.parentElement.querySelector(".pills-error");
+        if (err) err.classList.remove("show");
+        textInput.classList.remove("invalid");
+      }
+    }
+
+    var CLUB_NAME_RE = /^[A-Za-z0-9 ().,:]+$/;
+
+    function bindTextValidation(input, errorEl, fieldId, maxLen) {
+      input.addEventListener("blur", function () {
+        if (!input.value.trim()) return;
+        validateFreeText(input, errorEl, document.getElementById(fieldId), maxLen, CLUB_NAME_RE, true);
+      });
+      input.addEventListener("input", function () {
+        if (errorEl && errorEl.classList.contains("show")) {
+          validateFreeText(input, errorEl, document.getElementById(fieldId), maxLen, CLUB_NAME_RE, true);
         }
       });
     }
 
-    interestPills.forEach(function (btn) { bindToggle(btn, false); });
-    cookiePills.forEach(function (btn) { bindToggle(btn, true); });
+    bindTextValidation(nameOfClubsInput, nameOfClubsError, "field-name-of-clubs", 256);
+
+    wpInput.addEventListener("blur", function () { validateWpNumber(true); });
+    wpInput.addEventListener("input", function () {
+      if (wpError && wpError.classList.contains("show")) validateWpNumber(true);
+    });
+
+    fbInput.addEventListener("blur", function () { validateFbId(true); });
+    fbInput.addEventListener("input", function () {
+      if (fbError && fbError.classList.contains("show")) validateFbId(true);
+    });
+
+     function bindToggle(btn, siblings, onSelect) {
+       btn.addEventListener("click", function () {
+         siblings.forEach(function (other) { other.classList.remove("selected"); other.setAttribute("aria-pressed", "false"); });
+         btn.classList.add("selected");
+         btn.setAttribute("aria-pressed", "true");
+         onSelect();
+       });
+     }
+
+     function bindMultiToggle(btn, onSelect) {
+       btn.addEventListener("click", function () {
+         var on = !btn.classList.contains("selected");
+         btn.classList.toggle("selected", on);
+         btn.setAttribute("aria-pressed", on ? "true" : "false");
+         onSelect();
+       });
+     }
+
+     function bindExclusiveGroup(pills, onSelect) {
+       pills.forEach(function (btn) {
+         btn.addEventListener("click", function () {
+           pills.forEach(function (other) { other.classList.remove("selected"); other.setAttribute("aria-pressed", "false"); });
+           btn.classList.add("selected");
+           btn.setAttribute("aria-pressed", "true");
+           onSelect(btn);
+         });
+       });
+     }
+
+     interestPills.forEach(function (btn) { bindMultiToggle(btn, validateInterests.bind(null, true)); });
+     cookiePills.forEach(function (btn) { bindToggle(btn, cookiePills, validateCookies.bind(null, true)); });
+     bindExclusiveGroup(prevClubPills, function (btn) {
+       prevClubInput.value = btn.classList.contains("yn-yes") ? "true" : "false";
+       validateYN(prevClubPills, document.getElementById("prev-club-error"), document.getElementById("field-prev-club"), true);
+     });
+     bindExclusiveGroup(joinedClubsPills, function (btn) {
+       joinedClubsInput.value = btn.classList.contains("yn-yes") ? "true" : "false";
+       validateYN(joinedClubsPills, joinedClubsError, document.getElementById("field-joined-clubs"), true);
+       revealConditional(joinedClubsInput, nameOfClubsField, nameOfClubsInput);
+     });
 
     function closeDropdown(dropdown) {
       dropdown.classList.remove("is-open");
@@ -388,9 +544,21 @@
         validateDropdown("section", true),
         validateDropdown("house", true),
         validateInterests(true),
+        validateYN(prevClubPills, prevClubError, document.getElementById("field-prev-club"), true)
+      ];
+
+      checks.push(validateYN(joinedClubsPills, joinedClubsError, document.getElementById("field-joined-clubs"), true));
+
+      if (joinedClubsInput.value === "true") {
+        checks.push(validateFreeText(nameOfClubsInput, nameOfClubsError, nameOfClubsField, 256, CLUB_NAME_RE, true));
+      }
+
+      checks.push(
+        validateWpNumber(true),
+        validateFbId(true),
         validateCookies(true),
         validateTurnstile(true)
-      ];
+      );
 
       var firstInvalid = null;
       var allValid = true;
@@ -433,6 +601,11 @@
         house: form.house.value,
         interests: interests.map(function (btn) { return btn.textContent.trim(); }),
         likeCookies: cookie[0].textContent.trim() === "Yes",
+        prevClub: prevClubInput.value === "true",
+        joinedClubs: joinedClubsInput.value === "true",
+        nameOfClubs: joinedClubsInput.value === "true" ? nameOfClubsInput.value.trim() : null,
+        wpNumber: wpInput.value.trim(),
+        fbID: fbInput.value.trim(),
         cf_token: activeCfToken
       };
 
