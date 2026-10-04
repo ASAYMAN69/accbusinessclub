@@ -4,4 +4,5 @@ module.exports = {
   registrationRouter: require("./registration"),
   membersRouter: require("./members"),
   imagesRouter: require("./images"),
+  adminRouter: require("./admin"),
 };

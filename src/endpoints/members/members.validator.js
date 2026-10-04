@@ -3,8 +3,9 @@ const { validateFb, validateOptionalWp } = require("../../shared/social.validato
 const PANELS = new Set(["executive", "teacher", "advisor", "alumni"]);
 const NAME_RE = /^[\p{L}\p{M}\s.'\-()]+$/u;
 const HANDLE_RE = /^[A-Za-z0-9._-]{1,64}$/;
-const FIELDS = ["panel", "name", "role", "year", "sort_order", "quote", "achievements",
+const FIELDS = ["panel", "name", "role", "year", "sort_order", "image", "quote", "achievements",
   "facebook", "instagram", "whatsapp", "phone_number", "linkedin_url"];
+const IMAGE_KEY_RE = /^members\/[a-zA-Z0-9._-]+\.(webp|jpg|jpeg|png)$/i;
 
 const str = (v) => (typeof v === "string" ? v.trim() : "");
 
@@ -164,6 +165,17 @@ function validateMemberWrite(body, { partial }) {
       const n = Number(raw);
       if (!isIntInRange(n, 0, 9999)) errors.push({ field: key, err: "Sort order must be a whole number between 0 and 9999." });
       else out.sort_order = n;
+      continue;
+    }
+
+    if (key === "image") {
+      if (raw === null || raw === "") { out.image = null; continue; }
+      const s = typeof raw === "string" ? raw.trim() : "";
+      if (!IMAGE_KEY_RE.test(s)) {
+        errors.push({ field: key, err: "Image key must match 'members/<uuid>.<ext>'." });
+      } else {
+        out.image = s;
+      }
       continue;
     }
 

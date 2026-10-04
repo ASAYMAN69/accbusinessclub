@@ -24,6 +24,9 @@ async function update(id, body) {
   if (merged.panel === "alumni" && !merged.year) {
     return e400([{ field: "year", err: "Graduation year is required for alumni." }]);
   }
+  if (v.value.image !== undefined && existing.image && existing.image !== v.value.image) {
+    await s3.removeImage(existing.image);
+  }
   await repo.update(id, v.value);
   return { status: 200 };
 }

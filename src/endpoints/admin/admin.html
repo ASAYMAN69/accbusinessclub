@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACCBC Admin Dashboard — Member Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: #10141d;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #22c55e;
+      --accent-glow: rgba(34, 197, 94, 0.25);
+      --danger: #ef4444;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --input-bg: #161c28;
+      --input-border: rgba(255, 255, 255, 0.12);
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    header {
+      background: rgba(16, 20, 29, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky; top: 0; z-index: 50;
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+    .badge { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--accent); font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; text-decoration: none;
+    }
+    .btn-primary { background: var(--accent); color: #041308; }
+    .btn-primary:hover { background: #16a34a; box-shadow: 0 0 16px var(--accent-glow); }
+    .btn-secondary { background: var(--input-bg); color: var(--text); border-color: var(--card-border); }
+    .btn-secondary:hover { background: #1d2535; border-color: rgba(255,255,255,0.2); }
+    .btn-danger { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+    main { flex: 1; max-width: 1300px; width: 100%; margin: 0 auto; padding: 24px; }
+    
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .tabs { display: flex; gap: 6px; background: var(--card-bg); padding: 4px; border-radius: var(--radius-sm); border: 1px solid var(--card-border); overflow-x: auto; }
+    .tab {
+      background: transparent; border: none; color: var(--text-muted);
+      padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .tab.active { background: var(--input-bg); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    .search-box { position: relative; min-width: 260px; }
+    .search-input {
+      width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
+      color: var(--text); padding: 9px 14px 9px 36px; border-radius: var(--radius-sm);
+      font-size: 0.875rem; outline: none; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    
+    .card-thumb {
+      width: 100%; height: 240px; background: #0b0e14; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .card-thumb-placeholder { color: var(--text-muted); font-size: 2.5rem; font-weight: 700; opacity: 0.3; }
+    .card-panel-pill {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(10, 14, 23, 0.85); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .panel-executive { color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
+    .panel-teacher { color: #f59e0b; border-color: rgba(245, 158, 11, 0.4); }
+    .panel-advisor { color: #a855f7; border-color: rgba(168, 85, 247, 0.4); }
+    .panel-alumni { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
+
+    .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .card-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .card-role { font-size: 0.85rem; color: var(--accent); font-weight: 600; }
+    .card-meta { font-size: 0.78rem; color: var(--text-muted); display: flex; gap: 12px; }
+    .card-actions { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--card-border); display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+      z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px;
+      overflow-y: auto;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); width: 100%; max-width: 640px; max-height: 90vh;
+      display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.7); overflow: hidden;
+      margin: auto;
+    }
+    .modal form {
+      display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden;
+    }
+    .modal-header {
+      padding: 18px 24px; border-bottom: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .modal-header h2 { font-size: 1.15rem; font-weight: 700; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    .modal-close:hover { color: var(--text); }
+    .modal-body {
+      padding: 24px; overflow-y: auto; flex: 1; min-height: 0;
+      display: flex; flex-direction: column; gap: 16px;
+      scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    }
+    .modal-body::-webkit-scrollbar { width: 6px; }
+    .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .modal-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+    .modal-body::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.35); }
+    .modal-footer {
+      padding: 16px 24px; border-top: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: flex-end; gap: 12px; background: rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
+      color: var(--text); padding: 10px 14px; border-radius: var(--radius-sm);
+      font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-textarea { min-height: 80px; resize: vertical; }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--input-border); border-radius: var(--radius);
+      padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s;
+      background: var(--input-bg); position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: rgba(34, 197, 94, 0.05); }
+    .upload-preview { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+    .upload-preview img { width: 72px; height: 72px; border-radius: var(--radius-sm); object-fit: cover; border: 1px solid var(--card-border); }
+    .upload-info { flex: 1; text-align: left; }
+    .upload-key { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; word-break: break-all; }
+
+    /* Toast */
+    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
+    .toast {
+      background: var(--card-bg); border: 1px solid var(--card-border); padding: 12px 20px;
+      border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px;
+      animation: slideIn 0.3s ease;
+    }
+    .toast-success { border-color: var(--accent); color: var(--accent); }
+    .toast-error { border-color: var(--danger); color: #f87171; }
+    @keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .empty-state {
+      grid-column: 1 / -1; padding: 60px 20px; text-align: center; color: var(--text-muted);
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+    }
+    .empty-state h3 { color: var(--text); margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>ACCBC Dashboard</h1>
+    <span class="badge">Admin</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary btn-sm" id="btn-set-token" onclick="promptToken()">
+      🔑 <span id="token-label">Set Admin Token</span>
+    </button>
+    <button class="btn btn-primary" onclick="openCreateModal()">
+      <span>+ Add Member</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <div class="tabs" id="panel-tabs">
+      <button class="tab active" data-panel="all" onclick="setPanel('all')">All Members</button>
+      <button class="tab" data-panel="executive" onclick="setPanel('executive')">Executives</button>
+      <button class="tab" data-panel="teacher" onclick="setPanel('teacher')">Teachers</button>
+      <button class="tab" data-panel="advisor" onclick="setPanel('advisor')">Advisors</button>
+      <button class="tab" data-panel="alumni" onclick="setPanel('alumni')">Alumni</button>
+    </div>
+
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Search by name, role..." oninput="handleSearch()">
+    </div>
+  </div>
+
+  <div class="grid" id="members-grid">
+    <div class="empty-state">Loading members...</div>
+  </div>
+</main>
+
+<!-- Member Form Modal (Create / Edit) -->
+<div class="modal-backdrop" id="member-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Add Member</h2>
+      <button class="modal-close" onclick="closeMemberModal()">&times;</button>
+    </div>
+    <form id="member-form" onsubmit="handleSaveMember(event)">
+      <div class="modal-body">
+        <input type="hidden" id="form-id">
+
+        <!-- Photo Uploader -->
+        <div class="form-group">
+          <label class="form-label">Photo (Auto-compressed to WebP)</label>
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileSelected(event)">
+            <div id="upload-prompt">
+              <p style="font-size: 0.9rem; font-weight: 600;">Click or drop photo here</p>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">PNG, JPEG, WebP (Converted to optimized WebP & uploaded to S3)</p>
+            </div>
+            <div class="upload-preview" id="upload-preview" style="display:none;">
+              <img id="preview-img" src="" alt="preview">
+              <div class="upload-info">
+                <p id="upload-status" style="font-weight: 600; color: var(--accent); font-size: 0.85rem;">Uploaded to S3</p>
+                <p class="upload-key" id="preview-key"></p>
+                <input type="hidden" id="form-image-key">
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); removePhoto();">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Panel *</label>
+            <select class="form-select" id="form-panel" required onchange="handlePanelChange()">
+              <option value="executive">Executive</option>
+              <option value="teacher">Teacher</option>
+              <option value="advisor">Advisor</option>
+              <option value="alumni">Alumni</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" class="form-input" id="form-name" required placeholder="e.g. Asadullah Sayman">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Role / Designation</label>
+            <input type="text" class="form-input" id="form-role" placeholder="e.g. President, Club Moderator">
+          </div>
+          <div class="form-group" id="year-group" style="display:none;">
+            <label class="form-label">Graduation Year *</label>
+            <input type="number" class="form-input" id="form-year" placeholder="e.g. 2024" min="2000" max="2100">
+          </div>
+          <div class="form-group" id="sort-group">
+            <label class="form-label">Sort Order</label>
+            <input type="number" class="form-input" id="form-sort" value="0" min="0" max="9999">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quote</label>
+          <textarea class="form-textarea" id="form-quote" placeholder="Memorable quote or bio..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Achievements (One per line)</label>
+          <textarea class="form-textarea" id="form-achievements" placeholder="National Business Olympiad Champion&#10;Hult Prize Finalist"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Facebook Profile / Username</label>
+            <input type="text" class="form-input" id="form-fb" placeholder="username or https://facebook.com/...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number</label>
+            <input type="text" class="form-input" id="form-wp" placeholder="e.g. 01712345678 or +8801712345678">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Instagram Handle / Link</label>
+            <input type="text" class="form-input" id="form-ig" placeholder="@username or link">
+          </div>
+          <div class="form-group">
+            <label class="form-label">LinkedIn Profile / Username</label>
+            <input type="text" class="form-input" id="form-linkedin" placeholder="username or https://linkedin.com/in/...">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeMemberModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit-member">Save Member</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+  let allMembers = [];
+  let currentPanel = "all";
+  let adminToken = localStorage.getItem("accbc_admin_token") || "";
+
+  function updateTokenLabel() {
+    const el = document.getElementById("token-label");
+    if (adminToken) {
+      el.textContent = "Token Configured (" + adminToken.slice(0, 4) + "•••)";
+    } else {
+      el.textContent = "Set Admin Token";
+    }
+  }
+
+  function promptToken() {
+    const token = prompt("Enter ADMIN_TOKEN for backend authorization:", adminToken);
+    if (token !== null) {
+      adminToken = token.trim();
+      if (adminToken) localStorage.setItem("accbc_admin_token", adminToken);
+      else localStorage.removeItem("accbc_admin_token");
+      updateTokenLabel();
+      toast("Admin token saved", "success");
+    }
+  }
+
+  function toast(msg, type = "success") {
+    const c = document.getElementById("toast-container");
+    const t = document.createElement("div");
+    t.className = "toast toast-" + type;
+    t.textContent = (type === "success" ? "✓ " : "✕ ") + msg;
+    c.appendChild(t);
+    setTimeout(() => { t.remove(); }, 3500);
+  }
+
+  function getHeaders() {
+    const h = { "Content-Type": "application/json" };
+    if (adminToken) h["Authorization"] = "Bearer " + adminToken;
+    return h;
+  }
+
+  async function loadMembers() {
+    const grid = document.getElementById("members-grid");
+    grid.innerHTML = '<div class="empty-state">Loading members...</div>';
+    try {
+      const res = await fetch("/api/public/members");
+      if (!res.ok) throw new Error("Failed to load members: HTTP " + res.status);
+      allMembers = await res.json();
+      renderGrid();
+    } catch (err) {
+      grid.innerHTML = '<div class="empty-state"><h3>Error loading members</h3><p>' + err.message + '</p></div>';
+    }
+  }
+
+  function setPanel(p) {
+    currentPanel = p;
+    document.querySelectorAll("#panel-tabs .tab").forEach(tab => {
+      tab.classList.toggle("active", tab.dataset.panel === p);
+    });
+    renderGrid();
+  }
+
+  function handleSearch() {
+    renderGrid();
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById("members-grid");
+    const q = (document.getElementById("search-input").value || "").toLowerCase().trim();
+    
+    let list = allMembers.filter(m => {
+      if (currentPanel !== "all" && m.panel !== currentPanel) return false;
+      if (q) {
+        const name = (m.name || "").toLowerCase();
+        const role = (m.role || "").toLowerCase();
+        const year = String(m.year || "");
+        if (!name.includes(q) && !role.includes(q) && !year.includes(q)) return false;
+      }
+      return true;
+    });
+
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty-state"><h3>No members found</h3><p>Try changing search query or tab.</p></div>';
+      return;
+    }
+
+    grid.innerHTML = list.map(m => {
+      const imgUrl = m.image ? (m.image.startsWith("http") ? m.image : "/api/images/" + m.image) : "";
+      return `
+        <div class="card" data-id="${m.id}">
+          <div class="card-thumb">
+            <span class="card-panel-pill panel-${m.panel}">${m.panel}</span>
+            ${imgUrl ? `<img src="${imgUrl}" alt="${m.name}" loading="lazy">` : `<div class="card-thumb-placeholder">${(m.name || "U")[0]}</div>`}
+          </div>
+          <div class="card-body">
+            <h3 class="card-name">${escapeHtml(m.name)}</h3>
+            <div class="card-role">${escapeHtml(m.role || "Member")}</div>
+            <div class="card-meta">
+              ${m.year ? `<span>🎓 Year: ${m.year}</span>` : ""}
+              <span>🔢 Order: ${m.sort_order ?? 0}</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openEditModal('${m.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="handleDeleteMember('${m.id}', '${escapeHtml(m.name)}')">Delete</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function escapeHtml(s) {
+    if (!s) return "";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function handlePanelChange() {
+    const p = document.getElementById("form-panel").value;
+    const yearGroup = document.getElementById("year-group");
+    const yearInput = document.getElementById("form-year");
+    if (p === "alumni") {
+      yearGroup.style.display = "flex";
+      yearInput.required = true;
+    } else {
+      yearGroup.style.display = "none";
+      yearInput.required = false;
+    }
+  }
+
+  // Upload handling
+  async function handleFileSelected(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!adminToken) {
+      promptToken();
+      if (!adminToken) return;
+    }
+
+    const promptDiv = document.getElementById("upload-prompt");
+    const previewDiv = document.getElementById("upload-preview");
+    const statusText = document.getElementById("upload-status");
+    
+    promptDiv.style.display = "none";
+    previewDiv.style.display = "flex";
+    statusText.textContent = "Compressing & uploading to S3...";
+    statusText.style.color = "#38bdf8";
+
+    const fd = new FormData();
+    fd.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + adminToken },
+        body: fd
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.errors?.[0]?.err || "Upload failed (HTTP " + res.status + ")");
+      }
+      const data = await res.json();
+      document.getElementById("preview-img").src = data.url;
+      document.getElementById("preview-key").textContent = data.key + " (" + Math.round((data.size || 0)/1024) + " KB WebP)";
+      document.getElementById("form-image-key").value = data.key;
+      statusText.textContent = "✓ WebP Uploaded";
+      statusText.style.color = "var(--accent)";
+      toast("Photo compressed to WebP & uploaded!", "success");
+    } catch (err) {
+      toast(err.message, "error");
+      removePhoto();
+    }
+  }
+
+  function removePhoto() {
+    document.getElementById("file-input").value = "";
+    document.getElementById("form-image-key").value = "";
+    document.getElementById("preview-img").src = "";
+    document.getElementById("preview-key").textContent = "";
+    document.getElementById("upload-prompt").style.display = "block";
+    document.getElementById("upload-preview").style.display = "none";
+  }
+
+  function openCreateModal() {
+    if (!adminToken) {
+      promptToken();
+      if (!adminToken) return;
+    }
+    document.getElementById("modal-title").textContent = "Add Member";
+    document.getElementById("form-id").value = "";
+    document.getElementById("form-name").value = "";
+    document.getElementById("form-role").value = "";
+    document.getElementById("form-panel").value = currentPanel === "all" ? "executive" : currentPanel;
+    document.getElementById("form-year").value = "";
+    document.getElementById("form-sort").value = "0";
+    document.getElementById("form-quote").value = "";
+    document.getElementById("form-achievements").value = "";
+    document.getElementById("form-fb").value = "";
+    document.getElementById("form-wp").value = "";
+    document.getElementById("form-ig").value = "";
+    document.getElementById("form-linkedin").value = "";
+    removePhoto();
+    handlePanelChange();
+    document.getElementById("member-modal").classList.add("open");
+  }
+
+  function openEditModal(id) {
+    const m = allMembers.find(x => x.id === id);
+    if (!m) return;
+    if (!adminToken) {
+      promptToken();
+      if (!adminToken) return;
+    }
+
+    document.getElementById("modal-title").textContent = "Edit Member";
+    document.getElementById("form-id").value = m.id;
+    document.getElementById("form-name").value = m.name || "";
+    document.getElementById("form-role").value = m.role || "";
+    document.getElementById("form-panel").value = m.panel || "executive";
+    document.getElementById("form-year").value = m.year || "";
+    document.getElementById("form-sort").value = m.sort_order ?? 0;
+    document.getElementById("form-quote").value = m.quote || "";
+    
+    // Achievements
+    let ach = "";
+    if (Array.isArray(m.achievements)) {
+      ach = m.achievements.map(a => typeof a === "string" ? a : a.text).filter(Boolean).join("\n");
+    }
+    document.getElementById("form-achievements").value = ach;
+
+    document.getElementById("form-fb").value = m.facebook || "";
+    document.getElementById("form-wp").value = m.whatsapp || m.phone_number || "";
+    document.getElementById("form-ig").value = m.instagram || "";
+    document.getElementById("form-linkedin").value = m.linkedin_url || "";
+
+    if (m.image) {
+      document.getElementById("upload-prompt").style.display = "none";
+      document.getElementById("upload-preview").style.display = "flex";
+      document.getElementById("preview-img").src = m.image.startsWith("http") ? m.image : "/api/images/" + m.image;
+      document.getElementById("preview-key").textContent = m.image;
+      document.getElementById("form-image-key").value = m.image;
+      document.getElementById("upload-status").textContent = "Existing Photo";
+    } else {
+      removePhoto();
+    }
+
+    handlePanelChange();
+    document.getElementById("member-modal").classList.add("open");
+  }
+
+  function closeMemberModal() {
+    document.getElementById("member-modal").classList.remove("open");
+  }
+
+  async function handleSaveMember(e) {
+    e.preventDefault();
+    if (!adminToken) {
+      promptToken();
+      if (!adminToken) return;
+    }
+
+    const id = document.getElementById("form-id").value;
+    const panel = document.getElementById("form-panel").value;
+    const name = document.getElementById("form-name").value.trim();
+    const role = document.getElementById("form-role").value.trim() || null;
+    const sort_order = parseInt(document.getElementById("form-sort").value, 10) || 0;
+    const image = document.getElementById("form-image-key").value || null;
+    const quote = document.getElementById("form-quote").value.trim() || null;
+    const fb = document.getElementById("form-fb").value.trim() || null;
+    const wp = document.getElementById("form-wp").value.trim() || null;
+    const ig = document.getElementById("form-ig").value.trim() || null;
+    const linkedin = document.getElementById("form-linkedin").value.trim() || null;
+    
+    let year = null;
+    if (panel === "alumni") {
+      year = parseInt(document.getElementById("form-year").value, 10);
+    }
+
+    const achRaw = document.getElementById("form-achievements").value.trim();
+    const achievements = achRaw ? achRaw.split("\n").map(s => s.trim()).filter(Boolean) : null;
+
+    const payload = {
+      panel, name, role, sort_order, image, quote, achievements,
+      facebook: fb, whatsapp: wp, instagram: ig, linkedin_url: linkedin
+    };
+    if (year) payload.year = year;
+
+    const isEdit = Boolean(id);
+    const url = isEdit ? `/api/members/${id}` : `/api/members`;
+    const method = isEdit ? "PUT" : "POST";
+
+    const btn = document.getElementById("btn-submit-member");
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: getHeaders(),
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const errDetail = data.errors ? data.errors.map(x => x.field + ": " + x.err).join("\n") : "HTTP " + res.status;
+        throw new Error(errDetail);
+      }
+      toast(isEdit ? "Member updated successfully!" : "Member created successfully!", "success");
+      closeMemberModal();
+      await loadMembers();
+    } catch (err) {
+      toast(err.message, "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Save Member";
+    }
+  }
+
+  async function handleDeleteMember(id, name) {
+    if (!confirm(`Are you sure you want to delete "${name}"? This will permanently remove the member and their photo.`)) return;
+    if (!adminToken) {
+      promptToken();
+      if (!adminToken) return;
+    }
+
+    try {
+      const res = await fetch(`/api/members/${id}`, {
+        method: "DELETE",
+        headers: getHeaders()
+      });
+      if (!res.ok && res.status !== 204) {
+        throw new Error("Failed to delete member (HTTP " + res.status + ")");
+      }
+      toast("Member deleted.", "success");
+      await loadMembers();
+    } catch (err) {
+      toast(err.message, "error");
+    }
+  }
+
+  // Init
+  updateTokenLabel();
+  loadMembers();
+</script>
+
+</body>
+</html>
